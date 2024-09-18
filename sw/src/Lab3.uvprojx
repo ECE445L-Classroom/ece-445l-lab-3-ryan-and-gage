@@ -414,6 +414,11 @@
               <FileType>1</FileType>
               <FilePath>.\SwitchDriver.c</FilePath>
             </File>
+            <File>
+              <FileName>SwitchDriver.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\SwitchDriver.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
