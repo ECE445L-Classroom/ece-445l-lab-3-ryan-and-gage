@@ -49,8 +49,7 @@ void DisplayDigitalTime()
 
 void AlarmStateBlinking() //takes current display state and flashes it 
 {
-	//wait for a timer that triggers a couple times a second
-	while()
-	
+	//wait for a timer that triggers a couple times a second during snooze alarm
+	//toggle between current display and background color
 	
 }

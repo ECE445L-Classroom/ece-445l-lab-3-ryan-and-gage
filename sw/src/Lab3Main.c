@@ -41,6 +41,7 @@
 #include "SwitchDriver.h"
 #include "SpeakerDriver.h"
 #include "SysDriver.h"
+#include "../inc/LCDDisplay.h"
 // ---------- Prototypes   -------------------------
 void DisableInterrupts(void); // Disable interrupts
 void EnableInterrupts(void);  // Enable interrupts
