@@ -1,3 +1,8 @@
+#include "../inc/Sine.h"
+#include <stdint.h>
+#include "../inc/ST7735.h"
+#include "SysDriver.h"
+
 
 const unsigned short lightModeClock [] = {
  0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF,
@@ -820,23 +825,38 @@ struct clockHand
 
 } hourHand, minuteHand, secondHand;
 	
-uint8_t = currentSecondDisplayed;
-uint8_t = currentMinuteDisplayed;
-uint8_t = currentHourDisplayed;
+uint8_t currentSecondDisplayed;
+uint8_t currentMinuteDisplayed;
+uint8_t currentHourDisplayed;
+
+#define HOURHANDLENGTH 12
+#define MINUTEHANDLENGTH 24
+#define SECONDHANDLENGTH 36
 
 void LCDDisplay_Init()
 {
-  SSD1306_Init(SSD1306_SWITCHCAPVCC);
-	SSD1306_ClearBuffer();
-  SSD1306_OutBuffer();
+  commonInit();
+
 }
 
-void DisplayTimeLightMode(uint16_t hour, uint16_t minute, uint16_t second);
+
+//lines will have to be present in the middle of the screen, so 
+int8_t GetXEndPoint(uint16_t time)
+{
+	return 79 + Sin(time*4) + Sin(64);
+}
+
+int8_t GetYEndPoint(uint16_t time)
+{
+	return 63 + Sin(time*4);
+}
+
+void DisplayTimeLightMode(uint16_t hour, uint16_t minute, uint16_t second)
 {
 	ST7735_DrawBitmap(4, 159, lightModeClock, 120, 160);
-	ST7735_Line(0,0,0,0,hourHand.color);
-	ST7735_Line(0,0,0,0,hourHand.color);
-	ST7735_Line(0,0,0,0,hourHand.color);
+	ST7735_Line(79,63,HOURHANDLENGTH*GetXEndPoint(time),HOURHANDLENGTH*GetYEndPoint(time),hourHand.color);
+	ST7735_Line(79,63,MINUTEHANDLENGTH*GetXEndPoint(time),MINUTEHANDLENGTH*GetYEndPoint(time),hourHand.color);
+	ST7735_Line(79,63,SECONDHANDLENGTH*GetXEndPoint(time),SECONDHANDLENGTH*GetYEndPoint(time),hourHand.color);
 	
 }
 
