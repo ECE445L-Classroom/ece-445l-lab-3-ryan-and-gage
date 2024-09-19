@@ -2,6 +2,8 @@
 #include "../inc/ST7735.h"
 #include "../inc/tm4c123gh6pm.h"
 #include "../inc/LCDDisplay.h"
+
+
 const uint16_t lightModeClock [] = ;
 	
 const uint16_t darkModeClock [] = ;
@@ -27,16 +29,15 @@ void LCDDisplay_Init()
 //  SSD1306_OutBuffer();
 }
 
-void DisplayTimeLightMode(uint16_t hour, uint16_t minute, uint16_t second);
+void DisplayTimeLightMode(uint16_t hour, uint16_t minute, uint16_t second)
 {
 	ST7735_DrawBitmap(4, 159, lightModeClock, 120, 160);
 	ST7735_Line(0,0,0,0,hourHand.color);
 	ST7735_Line(0,0,0,0,hourHand.color);
 	ST7735_Line(0,0,0,0,hourHand.color);
-	
 }
 
-
+void DisplayTimeDarkMode(uint16_t hour, uint16_t minute, uint16_t second)
 {
 	ST7735_DrawBitmap(4, 159, darkModeClock, 120, 160);
 	ST7735_Line(0,0,0,0,hourHand.color);

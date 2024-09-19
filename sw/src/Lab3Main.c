@@ -111,9 +111,11 @@ uint8_t newInputs()
 
 void Visuals(uint8_t inputs)
 {
+	//Make a call to show the clock
 }
 void MainMenu(uint8_t inputs)
 {
+	
 }
 void SetTime(uint8_t inputs)
 {
