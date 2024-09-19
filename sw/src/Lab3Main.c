@@ -38,7 +38,9 @@
 #include "../inc/tm4c123gh6pm.h"
 #include "../inc/Timer0A.h"
 #include "Lab3.h"
-
+#include "SwitchDriver.h"
+#include "SpeakerDriver.h"
+#include "../inc/SysTick.h"
 // ---------- Prototypes   -------------------------
 void DisableInterrupts(void); // Disable interrupts
 void EnableInterrupts(void);  // Enable interrupts
@@ -46,9 +48,16 @@ void WaitForInterrupt(void);  // low power mode
 int main(void){
   DisableInterrupts();
   PLL_Init(Bus80MHz);    // bus clock at 80 MHz
+	switchInit();
+	speakerInit();
+	
   // write this
   EnableInterrupts();
   while(1){
+		
+		switchRead(leftswitch);
+		switchRead(rightswitch);
+		switchRead(enterswitch);
       // write this
   }
 }
