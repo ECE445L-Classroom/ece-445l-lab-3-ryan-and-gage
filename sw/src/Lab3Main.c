@@ -112,18 +112,30 @@ int main(void){
 
 
 //Keep track of pressed buttons and when we have new inputs. 
+		uint8_t oldLeft; 
+		uint8_t oldRight;
+		uint8_t oldEnter;
 
-uint8_t newInputs()
+uint8_t newInputs() // Will give us the most the posEdge of each input
 {
-		if(switchRead(leftswitch) && oldLeft)
-		{
-		}
-		else if(switchRead(leftswitch) && oldLeft)
-		{
-		}
-		else if(switchRead(leftswitch) && oldLeft){}
+		oldLeft = switchRead(leftswitch);
+		oldRight = switchRead(rightswitch);
+		oldEnter = switchRead(enterswitch);
 	
-	return 1;
+		if(switchRead(leftswitch) && ~oldLeft)
+		{
+			return leftswitch;
+		}
+		else if(switchRead(rightswitch) && ~oldRight)
+		{
+			return rightswitch;
+		}
+		else if(switchRead(enterswitch) && ~oldEnter)
+		{
+			return enterswitch;
+		}
+	
+	return 0;
 }
 
 void Visuals(uint8_t inputs)
@@ -182,28 +194,28 @@ void SetTime(uint8_t inputs) // Done But Needs update screen
 		else if(menuPointer == 0) // Hour
 		{
 			if(inputs & leftswitch) 
-				SetHour = (SetHour - 1)%61;
+				SetHour = (SetHour - 1)%60;
 
 				
 				else if(inputs & rightswitch)
-					SetHour = (SetHour + 1)%61;
+					SetHour = (SetHour + 1)%60;
 		}
 			
 		else if(menuPointer == 1) // Minute
 		{
 			if(inputs & leftswitch)
-				SetMinute = (SetMinute - 1)%61;
+				SetMinute = (SetMinute - 1)%60;
 				else if(inputs & rightswitch)
-					SetMinute = (SetMinute + 1)%61;
+					SetMinute = (SetMinute + 1)%60;
 		}
 		
 		else
 		{
 			if(inputs & leftswitch) // Second
-				SetSecond = (SetSecond - 1)%61;
+				SetSecond = (SetSecond - 1)%60;
 				
 				else if(inputs & rightswitch)
-					SetSecond = (SetSecond + 1)%61;
+					SetSecond = (SetSecond + 1)%60;
 		}
 	}
 	
@@ -265,19 +277,19 @@ void SetAlarm(uint8_t inputs)
 		else if(menuPointer == 0) // Hour
 		{
 			if(inputs & leftswitch) 
-				SetHour = (SetHour - 1)%61;
+				SetHour = (SetHour - 1)%60;
 
 				
 				else if(inputs & rightswitch)
-					SetHour = (SetHour + 1)%61;
+					SetHour = (SetHour + 1)%60;
 		}
 			
 		else // Minute
 		{
 			if(inputs & leftswitch)
-				SetMinute = (SetMinute - 1)%61;
+				SetMinute = (SetMinute - 1)%60;
 				else if(inputs & rightswitch)
-					SetMinute = (SetMinute + 1)%61;
+					SetMinute = (SetMinute + 1)%60;
 		}
 	}
 		

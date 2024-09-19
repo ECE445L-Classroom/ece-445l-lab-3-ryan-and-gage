@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include "../inc/tm4c123gh6pm.h"
 
-
+#include "../inc/SysTick.h"
 
 void switchInit() // We will be using pins PE0 PE1 and PE2. //Need to make these pulldown Resistor
 {
@@ -13,16 +13,16 @@ void switchInit() // We will be using pins PE0 PE1 and PE2. //Need to make these
   GPIO_PORTE_AFSEL_R &= ~0x07;      // 6) PE0+ 1 + 2 regular port function
   GPIO_PORTE_DEN_R |= 0x07;         // 7) enable PE0+ 1 + 2 digital port}
 }
-uint8_t switchRead(uint8_t inputswitch) // Not Debounced yet
+uint8_t switchRead(uint8_t inputswitch) //  Debounced but may not work
 {
 	uint8_t hold = 0;
 	hold = GPIO_PORTE_DATA_R & inputswitch; 
-	//SysTick80_Wait10ms(1);
+	SysTick80_Wait10ms(1);
 	if((GPIO_PORTE_DATA_R & inputswitch) == hold) {return (GPIO_PORTE_DATA_R & inputswitch); }
 	
 	else
 	{
-		//SysTick80_Wait10ms(1);
+		SysTick80_Wait10ms(1);
 		return (GPIO_PORTE_DATA_R & inputswitch); 
 	}	
 	
