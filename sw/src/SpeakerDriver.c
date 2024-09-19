@@ -8,6 +8,8 @@
 //gate of a mosfet, that should generate a 1khz frequency in the output of the mosfet which will lead to the speaker.
 
 //We can use a timer to manage the frequency
+uint8_t ON_OFF = 0;
+
 
 void speakerInit()
 {
@@ -30,10 +32,23 @@ void speakerInit()
 		Timer1A_Init(&speakerOut,80000,2); // If the period is 1/80mHz, and we want 1 kHz
 }
 
-void speakerOut()
+void speakerOut(void)
 {
 	//If Timer reachs count down, flip the output
-	GPIO_PORTB_DATA_R ^= 0x10;
+	if(ON_OFF)
+		GPIO_PORTB_DATA_R ^= 0x10;
+	else
+		GPIO_PORTB_DATA_R &= ~0x10;
+}
+
+void TurnOnAlarm()
+{
+	ON_OFF = 1;
+}
+
+void TurnOffAlarm()
+{
+	ON_OFF = 0;
 }
 
 

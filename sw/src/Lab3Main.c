@@ -55,6 +55,7 @@ uint8_t state = 0;
 // 3 = Set Alarm
 // 4 = Set Visual 
 
+uint32_t Alarm_Time = 0xFFFFFFFF;
 uint8_t myInputs = 0;
 int main(void){
 	
@@ -68,6 +69,17 @@ int main(void){
   while(1){
 		
 		myInputs = newInputs();
+		
+		if(myInputs)
+			TurnOffAlarm();
+		
+		//Check For Alarm
+		if(getTime() == Alarm_Time)
+		{
+			TurnOnAlarm();
+		}
+		
+		
 		
 		switch (state) {
 				case 0: //Visual/Idle
@@ -100,11 +112,16 @@ int main(void){
 
 
 //Keep track of pressed buttons and when we have new inputs. 
+
 uint8_t newInputs()
 {
-		switchRead(leftswitch);
-		switchRead(rightswitch);
-		switchRead(enterswitch);
+		if(switchRead(leftswitch) && oldLeft)
+		{
+		}
+		else if(switchRead(leftswitch) && oldLeft)
+		{
+		}
+		else if(switchRead(leftswitch) && oldLeft){}
 	
 	return 1;
 }
@@ -112,20 +129,244 @@ uint8_t newInputs()
 void Visuals(uint8_t inputs)
 {
 	//Make a call to show the clock
-}
-void MainMenu(uint8_t inputs)
-{
 	
+	if(inputs) //We had a button press, so we should go to main menu
+		state = 1;
 }
-void SetTime(uint8_t inputs)
+
+
+uint8_t menuPointer = 0; //For all menus, there will be several options. We will use the same pointer between them,
+//which will be updated by left and right swith calls, and this will get reset between state changes. 
+
+void MainMenu(uint8_t inputs) // Done But Needs update screen
 {
+	//Update the visual on screen
+	
+	if(inputs & leftswitch)
+	{
+		if(menuPointer>0) // Only move to the left if we are not at the far left
+		{
+			menuPointer--;
+		}
+		
+	}
+	else if(inputs & rightswitch)
+	{
+		if(menuPointer<4) // Only move to the right if we are not at the far right
+		{
+			menuPointer++;
+		}
+	}
+		
+	else if(inputs & enterswitch)
+	{
+		state = menuPointer + 2; //Should work out as long as we order the menu options the same order of the time, alarm, visual
+		menuPointer = 0;
+	}
+
+}
+
+
+uint8_t SetHour = 0;
+uint8_t SetMinute = 0;
+uint8_t SetSecond = 0;
+uint8_t ChangeValue = 0;
+
+void SetTime(uint8_t inputs) // Done But Needs update screen
+{
+	//Update the visual on screen
+	if(ChangeValue)
+	{
+		if(inputs & enterswitch) ChangeValue = 0;
+		
+		else if(menuPointer == 0) // Hour
+		{
+			if(inputs & leftswitch) 
+				SetHour = (SetHour - 1)%61;
+
+				
+				else if(inputs & rightswitch)
+					SetHour = (SetHour + 1)%61;
+		}
+			
+		else if(menuPointer == 1) // Minute
+		{
+			if(inputs & leftswitch)
+				SetMinute = (SetMinute - 1)%61;
+				else if(inputs & rightswitch)
+					SetMinute = (SetMinute + 1)%61;
+		}
+		
+		else
+		{
+			if(inputs & leftswitch) // Second
+				SetSecond = (SetSecond - 1)%61;
+				
+				else if(inputs & rightswitch)
+					SetSecond = (SetSecond + 1)%61;
+		}
+	}
+	
+	else // Not Updating the Time
+	{
+		if(inputs & leftswitch)
+	{
+		if(menuPointer>0) // Only move to the left if we are not at the far left
+		{
+			menuPointer--;
+		}
+		
+	}
+	else if(inputs & rightswitch)
+	{
+		if(menuPointer<4) // Only move to the right if we are not at the far right
+		{
+			menuPointer++;
+		}
+	}
+		
+	else if(inputs & enterswitch)
+	{
+		if(menuPointer <3)
+		ChangeValue = 1;
+		
+		else if(menuPointer == 3)//Confirm
+		{
+			updateTime(SetHour * 3600 + SetMinute * 60 + SetSecond);
+				SetHour = 0;
+				SetMinute = 0;
+				SetSecond = 0;
+				menuPointer =0;
+				state = 0;
+		}
+		else //Exit
+		{
+				SetHour = 0;
+				SetMinute = 0;
+				SetSecond = 0;
+			menuPointer =0;
+			state = 0;
+		}
+	}
+	}
+	
+	
+	
+		
+	
 }
 void SetAlarm(uint8_t inputs)
 {
+	//Update the visual on screen
+	if(ChangeValue)
+	{
+		if(inputs & enterswitch) ChangeValue = 0;
+		
+		else if(menuPointer == 0) // Hour
+		{
+			if(inputs & leftswitch) 
+				SetHour = (SetHour - 1)%61;
+
+				
+				else if(inputs & rightswitch)
+					SetHour = (SetHour + 1)%61;
+		}
+			
+		else // Minute
+		{
+			if(inputs & leftswitch)
+				SetMinute = (SetMinute - 1)%61;
+				else if(inputs & rightswitch)
+					SetMinute = (SetMinute + 1)%61;
+		}
+	}
+		
+	
+	else // Not Updating the Time
+	{
+		if(inputs & leftswitch)
+	{
+		if(menuPointer>0) // Only move to the left if we are not at the far left
+		{
+			menuPointer--;
+		}
+		
+	}
+	else if(inputs & rightswitch)
+	{
+		if(menuPointer<3) // Only move to the right if we are not at the far right
+		{
+			menuPointer++;
+		}
+	}
+		
+	else if(inputs & enterswitch)
+	{
+		if(menuPointer <2)
+		ChangeValue = 1;
+		
+		else if(menuPointer == 2)//Confirm
+		{
+				Alarm_Time = SetHour * 3600 + SetMinute * 60 + SetSecond;
+				SetHour = 0;
+				SetMinute = 0;
+				SetSecond = 0;
+				menuPointer =0;
+				state = 0;
+		}
+		else //Exit
+		{
+				SetHour = 0;
+				SetMinute = 0;
+				SetSecond = 0;
+			menuPointer =0;
+			state = 0;
+		}
+	}
+	}
+	
+	
+	
+		
+	
 }
 
 void SetVisual(uint8_t inputs)
 {
+	//Update the visual on screen
+		if(inputs & leftswitch)
+	{
+		if(menuPointer>0) // Only move to the left if we are not at the far left
+		{
+			menuPointer--;
+		}
+		
+	}
+	else if(inputs & rightswitch)
+	{
+		if(menuPointer<2) // Only move to the right if we are not at the far right
+		{
+			menuPointer++;
+		}
+	}
+		
+	else if(inputs & enterswitch)
+	{
+		if(menuPointer==0) // Update visual
+		{
+		}
+			
+		else if( menuPointer==1) // Update visual
+		{
+		}
+			
+		else
+		{
+		state = 0; //Should work out as long as we order the menu options the same order of the time, alarm, visual
+		menuPointer = 0;
+		}
+	}
+
 }
 
 
