@@ -38,6 +38,7 @@
 #include "../inc/tm4c123gh6pm.h"
 #include "../inc/Timer0A.h"
 #include "Lab3.h"
+
 // ---------- Prototypes   -------------------------
 void DisableInterrupts(void); // Disable interrupts
 void EnableInterrupts(void);  // Enable interrupts
