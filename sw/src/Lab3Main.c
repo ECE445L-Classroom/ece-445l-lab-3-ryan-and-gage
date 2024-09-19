@@ -40,7 +40,7 @@
 #include "Lab3.h"
 #include "SwitchDriver.h"
 #include "SpeakerDriver.h"
-#include "../inc/SysTick.h"
+#include "SysDriver.h"
 // ---------- Prototypes   -------------------------
 void DisableInterrupts(void); // Disable interrupts
 void EnableInterrupts(void);  // Enable interrupts
@@ -50,11 +50,10 @@ int main(void){
   PLL_Init(Bus80MHz);    // bus clock at 80 MHz
 	switchInit();
 	speakerInit();
-	
+	sysInit();
   // write this
   EnableInterrupts();
   while(1){
-		
 		switchRead(leftswitch);
 		switchRead(rightswitch);
 		switchRead(enterswitch);

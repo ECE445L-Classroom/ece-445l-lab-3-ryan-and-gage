@@ -1,6 +1,5 @@
 #include <stdint.h>
 #include "../inc/tm4c123gh6pm.h"
-#include "../inc/SysTick.h"
 
 
 
@@ -18,12 +17,12 @@ uint8_t switchRead(uint8_t inputswitch)
 {
 	uint8_t hold = 0;
 	hold = GPIO_PORTE_DATA_R & inputswitch; 
-	SysTick80_Wait10ms(1);
+	//SysTick80_Wait10ms(1);
 	if((GPIO_PORTE_DATA_R & inputswitch) == hold) {return (GPIO_PORTE_DATA_R & inputswitch); }
 	
 	else
 	{
-		SysTick80_Wait10ms(1);
+		//SysTick80_Wait10ms(1);
 		return (GPIO_PORTE_DATA_R & inputswitch); 
 	}	
 	

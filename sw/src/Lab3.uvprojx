@@ -415,19 +415,9 @@
               <FilePath>.\SysDriver.c</FilePath>
             </File>
             <File>
-              <FileName>SysDriver.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\SysDriver.h</FilePath>
-            </File>
-            <File>
               <FileName>SwitchDriver.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\SwitchDriver.c</FilePath>
-            </File>
-            <File>
-              <FileName>SwitchDriver.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\SwitchDriver.h</FilePath>
             </File>
             <File>
               <FileName>SpeakerDriver.c</FileName>
@@ -435,19 +425,14 @@
               <FilePath>.\SpeakerDriver.c</FilePath>
             </File>
             <File>
-              <FileName>SpeakerDriver.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\SpeakerDriver.h</FilePath>
-            </File>
-            <File>
               <FileName>Timer1A.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\inc\Timer1A.c</FilePath>
             </File>
             <File>
-              <FileName>SysTick.c</FileName>
+              <FileName>SysTickInts.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\inc\SysTick.c</FilePath>
+              <FilePath>..\inc\SysTickInts.c</FilePath>
             </File>
           </Files>
         </Group>
