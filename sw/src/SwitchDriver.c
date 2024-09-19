@@ -13,7 +13,7 @@ void switchInit() // We will be using pins PE0 PE1 and PE2
   GPIO_PORTE_AFSEL_R &= ~0x07;      // 6) PE0+ 1 + 2 regular port function
   GPIO_PORTE_DEN_R |= 0x07;         // 7) enable PE0+ 1 + 2 digital port}
 }
-uint8_t switchRead(uint8_t inputswitch)
+uint8_t switchRead(uint8_t inputswitch) // Not Debounced yet
 {
 	uint8_t hold = 0;
 	hold = GPIO_PORTE_DATA_R & inputswitch; 

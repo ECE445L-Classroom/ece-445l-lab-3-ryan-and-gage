@@ -45,7 +45,18 @@
 void DisableInterrupts(void); // Disable interrupts
 void EnableInterrupts(void);  // Enable interrupts
 void WaitForInterrupt(void);  // low power mode
+
+uint8_t state = 0;
+//These are the following states:
+// 0 = Visual/Idle
+// 1 = Main Menu
+// 2 = Set Time
+// 3 = Set Alarm
+// 4 = Set Visual 
+
+uint8_t myInputs = 0;
 int main(void){
+	
   DisableInterrupts();
   PLL_Init(Bus80MHz);    // bus clock at 80 MHz
 	switchInit();
@@ -54,10 +65,64 @@ int main(void){
   // write this
   EnableInterrupts();
   while(1){
+		
+		myInputs = newInputs();
+		
+		switch (state) {
+				case 0: //Visual/Idle
+				Visuals(myInputs);
+						break;
+
+				case 1: //Main Menu
+					MainMenu(myInputs);
+						break;
+
+				case 2: //Set Time
+					SetTime(myInputs);
+						break;
+
+				case 3:  //Set Alarm
+					SetAlarm(myInputs);
+						break;
+
+				case 4: //Set Visual 
+					SetVisual(myInputs);
+						break;
+
+				default:  //Visual/Idle
+						state = 0;
+						break;
+		}
+		
+  }
+}
+
+
+//Keep track of pressed buttons and when we have new inputs. 
+uint8_t newInputs()
+{
 		switchRead(leftswitch);
 		switchRead(rightswitch);
 		switchRead(enterswitch);
-      // write this
-  }
+	
+	return 1;
 }
+
+void Visuals(uint8_t inputs)
+{
+}
+void MainMenu(uint8_t inputs)
+{
+}
+void SetTime(uint8_t inputs)
+{
+}
+void SetAlarm(uint8_t inputs)
+{
+}
+
+void SetVisual(uint8_t inputs)
+{
+}
+
 
