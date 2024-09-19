@@ -3,7 +3,7 @@
 
 
 
-void switchInit() // We will be using pins PE0 PE1 and PE2. //Need to make these pullup
+void switchInit() // We will be using pins PE0 PE1 and PE2. //Need to make these pulldown Resistor
 {
 	SYSCTL_RCGCGPIO_R |= SYSCTL_RCGCGPIO_R4;     // 1) activate clock for Port E
   while((SYSCTL_PRGPIO_R & SYSCTL_PRGPIO_R4) == 0){};// ready?
